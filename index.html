@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>隙光科技官网 | 杭州隙光科技有限公司</title>
+  <meta name="description" content="杭州隙光科技有限公司，专注软件开发、人工智能技术服务与信息技术咨询。" />
+  <style>
+    :root {
+      --cyan: #22D3EE;
+      --blue: #3B6CFF;
+      --purple: #7C3AED;
+      --ink: #0B1020;
+      --cloud: #F2F4F8;
+      --stone: #6B7280;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Inter", system-ui, sans-serif;
+      color: var(--ink);
+      background: #fff;
+      line-height: 1.6;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 55%, var(--cyan) 100%);
+      color: #fff;
+      padding: 72px 24px 88px;
+      text-align: center;
+    }
+    .hero h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: .04em; }
+    .hero .en { font-size: 1rem; opacity: .85; letter-spacing: .25em; margin-top: 8px; }
+    .hero p { max-width: 640px; margin: 20px auto 0; font-size: 1.05rem; opacity: .92; }
+    .section { max-width: 960px; margin: 0 auto; padding: 56px 24px; }
+    .section h2 { font-size: 1.5rem; margin-bottom: 24px; position: relative; padding-left: 14px; }
+    .section h2::before {
+      content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 5px;
+      background: linear-gradient(180deg, var(--cyan), var(--purple)); border-radius: 3px;
+    }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .card {
+      border: 1px solid #E5E9F2; border-radius: 14px; padding: 24px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(59,108,255,.12); }
+    .card h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--blue); }
+    .card p { color: var(--stone); font-size: .95rem; }
+    .about p { color: var(--stone); max-width: 720px; }
+    .contact { background: var(--cloud); }
+    .contact ul { list-style: none; }
+    .contact li { padding: 8px 0; color: var(--stone); }
+    .contact li b { color: var(--ink); margin-right: 8px; }
+    footer {
+      text-align: center; padding: 28px 24px; color: var(--stone); font-size: .85rem;
+      border-top: 1px solid #E5E9F2;
+    }
+    footer a { color: var(--blue); text-decoration: none; }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.7rem; }
+      .section { padding: 40px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>隙光科技</h1>
+    <div class="en">HANGZHOU GAP LIGHT TECHNOLOGY CO., LTD.</div>
+    <p>杭州隙光科技有限公司 · 以软件与人工智能技术，为企业与开发者提供可靠的信息技术服务。</p>
+  </header>
+
+  <section class="section about">
+    <h2>关于我们 / About Us</h2>
+    <p>
+      杭州隙光科技有限公司（Hangzhou Gap Light Technology Co., Ltd.，简称"隙光科技"）是一家专注于软件开发与人工智能技术服务的科技企业。
+      公司致力于通过前沿的软件工程与 AI 能力，构建安全、实用、可扩展的数字产品，
+      服务涵盖技术研发、技术咨询与数字化解决方案。
+    </p>
+    <p style="margin-top:12px;">
+      Hangzhou Gap Light Technology Co., Ltd. is a technology company specializing in software development and AI-powered solutions. We build safe, practical, and scalable digital products with a focus on intelligent analysis and data-driven services.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>业务领域 / Services</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>软件开发 / Software Development</h3>
+        <p>面向 Web、移动端与云原生场景的定制软件设计与交付。</p>
+      </div>
+      <div class="card">
+        <h3>人工智能技术服务 / AI Solutions</h3>
+        <p>提供 AI 模型集成、智能分析与算法应用等技术与解决方案。</p>
+      </div>
+      <div class="card">
+        <h3>信息技术咨询 / IT Consulting</h3>
+        <p>为产品架构、合规与数据治理提供专业的技术咨询服务。</p>
+      </div>
+      <div class="card">
+        <h3>信息系统集成 / System Integration</h3>
+        <p>打通业务系统，构建稳定高效的数据与服务平台。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact">
+    <h2>联系我们 / Contact</h2>
+    <ul>
+      <li><b>公司名称</b>杭州隙光科技有限公司 / Hangzhou Gap Light Technology Co., Ltd.</li>
+      <li><b>统一社会信用代码</b>91330108MAKE1LNEP7G</li>
+      <li><b>注册地址</b>浙江省杭州市滨江区长河街道长河路1401号2层20894室</li>
+      <li><b>电子邮箱</b>service@novacraft.top</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>© 2026 杭州隙光科技有限公司 版权所有</p>
+    <p>备案号：<a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">浙ICP备……号（备案通过后填写）</a></p>
+  </footer>
+</body>
+</html>
