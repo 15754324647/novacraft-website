@@ -38,12 +38,15 @@
     }
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
     .card {
-      border: 1px solid #E5E9F2; border-radius: 14px; padding: 24px;
+      border: 1px solid #E5E9F2; border-radius: 14px; padding: 28px 24px;
       transition: transform .2s, box-shadow .2s;
+      display: flex; flex-direction: column;
     }
     .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(59,108,255,.12); }
-    .card h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--blue); }
-    .card p { color: var(--stone); font-size: .95rem; }
+    .card-icon { font-size: 1.8rem; margin-bottom: 14px; }
+    .card h3 { font-size: 1.05rem; margin-bottom: 4px; color: var(--blue); }
+    .card .en-label { font-size: .8rem; color: #9CA3AF; margin-bottom: 10px; letter-spacing: .02em; }
+    .card p { color: var(--stone); font-size: .9rem; flex: 1; }
     .about p { color: var(--stone); max-width: 720px; }
     .contact { background: var(--cloud); }
     .contact ul { list-style: none; }
@@ -83,19 +86,27 @@
     <h2>业务领域 / Services</h2>
     <div class="cards">
       <div class="card">
-        <h3>软件开发 / Software Development</h3>
+        <div class="card-icon">💻</div>
+        <h3>软件开发</h3>
+        <div class="en-label">Software Development</div>
         <p>面向 Web、移动端与云原生场景的定制软件设计与交付。</p>
       </div>
       <div class="card">
-        <h3>人工智能技术服务 / AI Solutions</h3>
+        <div class="card-icon">🤖</div>
+        <h3>人工智能技术服务</h3>
+        <div class="en-label">AI Solutions</div>
         <p>提供 AI 模型集成、智能分析与算法应用等技术与解决方案。</p>
       </div>
       <div class="card">
-        <h3>信息技术咨询 / IT Consulting</h3>
+        <div class="card-icon">📋</div>
+        <h3>信息技术咨询</h3>
+        <div class="en-label">IT Consulting</div>
         <p>为产品架构、合规与数据治理提供专业的技术咨询服务。</p>
       </div>
       <div class="card">
-        <h3>信息系统集成 / System Integration</h3>
+        <div class="card-icon">🔗</div>
+        <h3>信息系统集成</h3>
+        <div class="en-label">System Integration</div>
         <p>打通业务系统，构建稳定高效的数据与服务平台。</p>
       </div>
     </div>
