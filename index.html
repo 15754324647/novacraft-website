@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark" data-lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>隙光科技 Gap Light — 隙间有光</title>
+  <meta name="description" content="杭州隙光科技有限公司，以软件与人工智能技术构建安全、实用、可扩展的数字产品。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root[data-theme="dark"] {
+      --bg: #0f1117; --bg-elev: #1a1d27; --bg-elev2: #222632;
+      --ink: #e4e4e7; --ink-soft: #a1a1aa; --muted: #71717a; --rule: #27272a;
+      --accent: #6366f1; --accent-hi: #818cf8; --accent-dim: rgba(99,102,241,0.12);
+      --cyan: #22d3ee; --cyan-dim: rgba(34,211,238,0.10); --cyan-glow: rgba(34,211,238,0.35);
+      --logo-block: #e4e4e7; --logo-beam: #22d3ee;
+      --shadow-card: 0 2px 12px rgba(0,0,0,0.4); --shadow-hover: 0 8px 32px rgba(0,0,0,0.5);
+      --hero-grad: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99,102,241,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 70% 20%, rgba(34,211,238,0.10) 0%, transparent 60%);
+      --grid-line: rgba(255,255,255,0.025);
+    }
+    :root[data-theme="light"] {
+      --bg: #fafafa; --bg-elev: #ffffff; --bg-elev2: #f4f4f5;
+      --ink: #18181b; --ink-soft: #52525b; --muted: #a1a1aa; --rule: #e4e4e7;
+      --accent: #6366f1; --accent-hi: #4f46e5; --accent-dim: rgba(99,102,241,0.08);
+      --cyan: #0891b2; --cyan-dim: rgba(8,145,178,0.06); --cyan-glow: rgba(34,211,238,0.25);
+      --logo-block: #6366f1; --logo-beam: #0891b2;
+      --shadow-card: 0 1px 8px rgba(0,0,0,0.06); --shadow-hover: 0 8px 32px rgba(99,102,241,0.10);
+      --hero-grad: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99,102,241,0.08) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 70% 20%, rgba(34,211,238,0.06) 0%, transparent 60%);
+      --grid-line: rgba(0,0,0,0.03);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Instrument Sans','Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif; background: var(--bg); color: var(--ink); line-height: 1.65; overflow-x: hidden; transition: background 0.4s ease, color 0.4s ease; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--accent-dim); color: var(--accent-hi); }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    /* Logo */
+    .logo-mark { display: inline-flex; align-items: center; gap: 10px; }
+    .logo-mark svg { display: block; }
+    .logo-mark .text { font-weight: 700; font-size: 16px; letter-spacing: 0.02em; color: var(--ink); }
+
+    /* Top-right controls */
+    .top-controls { position: fixed; top: 20px; right: 24px; z-index: 100; display: flex; gap: 8px; }
+    .ctrl-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--rule); background: var(--bg-elev); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; backdrop-filter: blur(12px); color: var(--ink-soft); font-size: 13px; font-weight: 600; }
+    .ctrl-btn:hover { border-color: var(--accent); transform: scale(1.05); color: var(--accent-hi); }
+    .ctrl-btn svg { width: 18px; height: 18px; }
+
+    /* Nav */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 90; padding: 16px 0; background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid transparent; transition: border-color 0.3s ease; }
+    .nav.scrolled { border-bottom-color: var(--rule); }
+    .nav .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { font-size: 14px; color: var(--ink-soft); transition: color 0.2s ease; font-weight: 500; }
+
+    /* Hero */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background: var(--bg); }
+    .hero::before { content: ''; position: absolute; inset: 0; background: var(--hero-grad); pointer-events: none; }
+    .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 0%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 0%, transparent 80%); pointer-events: none; }
+    .light-beam { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 2px; height: 100%; background: linear-gradient(180deg, transparent 0%, var(--cyan-glow) 30%, var(--cyan) 50%, var(--cyan-glow) 70%, transparent 100%); opacity: 0.15; filter: blur(1px); animation: beam-pulse 4s ease-in-out infinite; }
+    @keyframes beam-pulse { 0%,100% { opacity: 0.10; } 50% { opacity: 0.25; } }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; padding: 0 24px; }
+    .hero-logo { display: flex; justify-content: center; margin-bottom: 32px; animation: fade-up 0.8s ease forwards; opacity: 0; }
+    .hero-logo svg { filter: drop-shadow(0 0 24px var(--cyan-glow)); animation: logo-glow 3s ease-in-out infinite; }
+    @keyframes logo-glow { 0%,100% { filter: drop-shadow(0 0 16px rgba(99,102,241,0.3)); } 50% { filter: drop-shadow(0 0 32px rgba(34,211,238,0.4)); } }
+    .hero-tag { display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); padding: 6px 16px; border: 1px solid color-mix(in srgb, var(--cyan) 30%, transparent); border-radius: 999px; margin-bottom: 24px; background: var(--cyan-dim); animation: fade-up 0.8s ease 0.1s forwards; opacity: 0; }
+    .hero h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 12px; animation: fade-up 0.8s ease 0.2s forwards; opacity: 0; }
+    .hero h1 .accent { color: var(--accent-hi); }
+    .hero .en-name { font-size: 1rem; font-weight: 500; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 28px; animation: fade-up 0.8s ease 0.3s forwards; opacity: 0; }
+    .hero p { font-size: 1.1rem; color: var(--ink-soft); max-width: 480px; margin: 0 auto 40px; animation: fade-up 0.8s ease 0.4s forwards; opacity: 0; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; animation: fade-up 0.8s ease 0.5s forwards; opacity: 0; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 600; transition: all 0.25s ease; cursor: pointer; border: none; }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 16px rgba(99,102,241,0.3); }
+    .btn-primary:hover { background: var(--accent-hi); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.4); }
+    .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent-hi); }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Sections */
+    .section { padding: 100px 0; position: relative; }
+    .section-label { font-size: 12px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.2; }
+    .section-desc { font-size: 1.05rem; color: var(--ink-soft); max-width: 560px; margin-bottom: 56px; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .about-text p { color: var(--ink-soft); margin-bottom: 16px; font-size: 0.98rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .stat-card { background: var(--bg-elev); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; transition: all 0.3s ease; }
+    .stat-card:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--rule)); transform: translateY(-2px); box-shadow: var(--shadow-card); }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent-hi); letter-spacing: -0.02em; }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* Services */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .service-card { background: var(--bg-elev); border: 1px solid var(--rule); border-radius: 14px; padding: 32px 28px; transition: all 0.35s ease; position: relative; overflow: hidden; }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0; transition: opacity 0.3s ease; }
+    .service-card:hover { border-color: color-mix(in srgb, var(--accent) 30%, var(--rule)); transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--accent-hi); }
+    .service-icon svg { width: 22px; height: 22px; }
+    .service-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+    .service-card .en-label { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 12px; }
+    .service-card p { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.6; }
+
+    /* Products */
+    .product-card { background: var(--bg-elev); border: 1px solid var(--rule); border-radius: 16px; padding: 40px; display: flex; align-items: center; gap: 40px; transition: all 0.35s ease; }
+    .product-card:hover { border-color: color-mix(in srgb, var(--cyan) 25%, var(--rule)); box-shadow: var(--shadow-hover); }
+    .product-visual { width: 120px; height: 120px; border-radius: 20px; background: var(--bg-elev2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--rule); }
+    .product-info h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+    .product-info .en { font-size: 13px; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 12px; }
+    .product-info p { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 16px; }
+    .product-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { font-size: 12px; padding: 4px 12px; border-radius: 999px; background: var(--bg-elev2); color: var(--ink-soft); border: 1px solid var(--rule); }
+
+    /* Contact */
+    .contact-section { background: var(--bg-elev); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .contact-item { padding: 20px 0; border-bottom: 1px solid var(--rule); }
+    .contact-item:last-child, .contact-item:nth-last-child(2) { border-bottom: none; }
+    .contact-item .label { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 4px; }
+    .contact-item .value { font-size: 0.95rem; color: var(--ink); font-weight: 500; }
+    .contact-item .value a { color: var(--accent-hi); }
+
+    /* Footer */
+    footer { padding: 40px 0; text-align: center; }
+    footer .container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    footer .copyright { font-size: 13px; color: var(--muted); }
+    footer .icp { font-size: 12px; color: var(--muted); }
+    footer .icp a { color: var(--muted); transition: color 0.2s ease; }
+    footer .icp a:hover { color: var(--accent-hi); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .product-card { flex-direction: column; text-align: center; padding: 32px 24px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-item:nth-last-child(2) { border-bottom: 1px solid var(--rule); }
+      .section { padding: 64px 0; }
+      .hero-actions { flex-direction: column; }
+    }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Lang hidden */
+    [data-lang="zh"] [data-en], [data-lang="en"] [data-zh] { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="top-controls">
+    <button class="ctrl-btn" id="langToggle" aria-label="Switch language">
+      <span data-zh>EN</span>
+      <span data-en>中</span>
+    </button>
+    <button class="ctrl-btn" id="themeToggle" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="nav" id="nav">
+    <div class="container">
+      <a href="#" class="logo-mark">
+        <svg width="32" height="32" viewBox="0 0 512 512">
+          <rect x="96" y="141" width="140" height="230" rx="34" fill="var(--logo-block)"/>
+          <rect x="276" y="141" width="140" height="230" rx="34" fill="var(--logo-block)"/>
+          <rect x="244" y="104" width="24" height="304" rx="12" fill="var(--logo-beam)"/>
+        </svg>
+        <span class="text">Gap Light</span>
+      </a>
+      <div class="nav-links">
+        <a href="#about"><span data-zh>关于我们</span><span data-en>About</span></a>
+        <a href="#services"><span data-zh>业务领域</span><span data-en>Services</span></a>
+        <a href="#products"><span data-zh>产品</span><span data-en>Products</span></a>
+        <a href="#contact"><span data-zh>联系我们</span><span data-en>Contact</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="light-beam"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <svg width="96" height="96" viewBox="0 0 512 512">
+          <rect x="96" y="141" width="140" height="230" rx="34" fill="var(--logo-block)"/>
+          <rect x="276" y="141" width="140" height="230" rx="34" fill="var(--logo-block)"/>
+          <rect x="244" y="104" width="24" height="304" rx="12" fill="var(--logo-beam)"/>
+        </svg>
+      </div>
+      <span class="hero-tag"><span data-zh>隙光科技 · GAP LIGHT</span><span data-en>GAP LIGHT TECHNOLOGY</span></span>
+      <h1><span data-zh>隙间<span class="accent">有光</span></span><span data-en>Light in the <span class="accent">Gap</span></span></h1>
+      <div class="en-name" data-zh>HANGZHOU GAP LIGHT TECHNOLOGY</div>
+      <div class="en-name" data-en>杭州隙光科技有限公司</div>
+      <p data-zh>以软件与人工智能技术，构建安全、实用、可扩展的数字产品。<br>于细微处见真章，以技术之光点亮未被满足的需求。</p>
+      <p data-en>Building safe, practical, and scalable digital products with software and AI.<br>Finding light in the gaps where needs remain unmet.</p>
+      <div class="hero-actions">
+        <a href="#services" class="btn btn-primary">
+          <span data-zh>了解业务领域</span><span data-en>Our Services</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-ghost"><span data-zh>联系我们</span><span data-en>Contact Us</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="section-label"><span data-zh>关于我们 / ABOUT</span><span data-en>ABOUT US</span></div>
+          <h2 class="section-title"><span data-zh>隙间有光，<br>微处见大</span><span data-en>Light in the Gap,<br>Big in the Small</span></h2>
+          <p data-zh>杭州隙光科技有限公司（Hangzhou Gap Light Technology Co., Ltd.）是一家专注于软件开发与人工智能技术服务的科技企业。</p>
+          <p data-en>Hangzhou Gap Light Technology Co., Ltd. is a technology company specializing in software development and AI-powered solutions.</p>
+          <p data-zh>公司以"平台 + 多产品"架构运营，通过前沿的软件工程与 AI 能力，构建安全、实用、可扩展的数字产品。服务涵盖技术研发、技术咨询与数字化解决方案。</p>
+          <p data-en>We build safe, practical, and scalable digital products with a "platform + multi-product" architecture, powered by cutting-edge software engineering and AI capabilities.</p>
+          <p data-zh>"隙光"意指隙间有光——于细微处见真章，在市场隙缝中发现机遇，以技术之光照亮未被满足的需求。</p>
+          <p data-en>"Gap Light" means finding light in the gap — seeing the big picture in the smallest details, discovering opportunities where others see gaps, and illuminating unmet needs with technology.</p>
+        </div>
+        <div class="about-stats reveal">
+          <div class="stat-card"><div class="stat-value">2026</div><div class="stat-label"><span data-zh>成立年份 / Founded</span><span data-en>Founded</span></div></div>
+          <div class="stat-card"><div class="stat-value">1+</div><div class="stat-label"><span data-zh>产品线 / Products</span><span data-en>Products</span></div></div>
+          <div class="stat-card"><div class="stat-value">95+</div><div class="stat-label"><span data-zh>API 接口 / APIs</span><span data-en>APIs</span></div></div>
+          <div class="stat-card"><div class="stat-value">100%</div><div class="stat-label"><span data-zh>自研技术 / In-house</span><span data-en>In-house</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="services" style="background: var(--bg-elev); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label"><span data-zh>业务领域 / SERVICES</span><span data-en>SERVICES</span></div>
+        <h2 class="section-title"><span data-zh>以技术驱动价值</span><span data-en>Driven by Technology</span></h2>
+        <p class="section-desc"><span data-zh>从软件开发到 AI 集成，从技术咨询到系统集成，覆盖数字化全链路。</span><span data-en>From software development to AI integration, from consulting to system integration.</span></p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h3><span data-zh>软件开发</span><span data-en>Software Dev</span></h3>
+          <div class="en-label">Software Development</div>
+          <p data-zh>面向 Web、移动端与云原生场景的定制软件设计与交付。</p>
+          <p data-en>Custom software design and delivery for web, mobile, and cloud-native scenarios.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg></div>
+          <h3><span data-zh>人工智能技术服务</span><span data-en>AI Solutions</span></h3>
+          <div class="en-label">AI Solutions</div>
+          <p data-zh>AI 模型集成、智能分析与算法应用等技术与解决方案。</p>
+          <p data-en>AI model integration, intelligent analysis, and algorithm applications.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3><span data-zh>信息技术咨询</span><span data-en>IT Consulting</span></h3>
+          <div class="en-label">IT Consulting</div>
+          <p data-zh>为产品架构、合规与数据治理提供专业的技术咨询服务。</p>
+          <p data-en>Professional consulting for architecture, compliance, and data governance.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+          <h3><span data-zh>信息系统集成</span><span data-en>System Integration</span></h3>
+          <div class="en-label">System Integration</div>
+          <p data-zh>打通业务系统，构建稳定高效的数据与服务平台。</p>
+          <p data-en>Connecting business systems to build stable and efficient data platforms.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          <h3><span data-zh>互联网销售</span><span data-en>E-Commerce</span></h3>
+          <div class="en-label">E-Commerce</div>
+          <p data-zh>依托数字化平台，提供安全便捷的在线产品销售服务。</p>
+          <p data-en>Safe and convenient online product sales through digital platforms.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <h3><span data-zh>数字产品服务</span><span data-en>Digital Products</span></h3>
+          <div class="en-label">Digital Products</div>
+          <p data-zh>面向消费者与企业的数字化产品设计与运营服务。</p>
+          <p data-en>Digital product design and operation for consumers and enterprises.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="products">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label"><span data-zh>产品 / PRODUCTS</span><span data-en>PRODUCTS</span></div>
+        <h2 class="section-title"><span data-zh>已孵化产品</span><span data-en>Our Products</span></h2>
+        <p class="section-desc"><span data-zh>以平台能力为底座，持续孵化面向不同场景的数字产品。</span><span data-en>Building products for diverse scenarios on a shared platform.</span></p>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-visual">
+          <!-- Dropaw product logo: paw print in viewfinder (from logo/dropaw/dropaw-purple-yellow-symbol.svg) -->
+          <svg width="64" height="64" viewBox="0 0 220 220">
+            <defs><linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#667eea"/><stop offset="100%" stop-color="#4834D4"/></linearGradient></defs>
+            <rect width="220" height="220" rx="48" fill="url(#dg)"/>
+            <g transform="translate(110,100)">
+              <path d="M-54,-36 L-54,-54 L-36,-54" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M54,-36 L54,-54 L36,-54" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M-54,36 L-54,54 L-36,54" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M54,36 L54,54 L36,54" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle r="42" fill="none" stroke="#fff" stroke-width="7"/>
+              <path d="M0,-42 A42,42 0 1 1 -30,30" fill="none" stroke="#ffd700" stroke-width="7" stroke-linecap="round"/>
+              <g transform="scale(.52)"><g transform="scale(1)">
+                <ellipse cx="-34" cy="-12" rx="13" ry="17" fill="#fff" transform="rotate(-12 -34 -12)"/>
+                <ellipse cx="-12" cy="-30" rx="13" ry="18" fill="#fff" transform="rotate(-3 -12 -30)"/>
+                <ellipse cx="12"  cy="-30" rx="13" ry="18" fill="#fff" transform="rotate(3 12 -30)"/>
+                <ellipse cx="34"  cy="-12" rx="13" ry="17" fill="#fff" transform="rotate(12 34 -12)"/>
+                <path d="M0,-2 C-3,-10 -12,-12 -18,-6 C-26,2 -26,16 -26,22 C-26,34 -12,40 0,40 C12,40 26,34 26,22 C26,16 26,2 18,-6 C12,-12 3,-10 0,-2 Z" fill="#fff"/>
+                <ellipse cx="-9" cy="12" rx="5" ry="7" fill="#fff" opacity=".4"/>
+              </g></g>
+            </g>
+          </svg>
+        </div>
+        <div class="product-info">
+          <h3><span data-zh>爪扑 Dropaw</span><span data-en>Dropaw</span></h3>
+          <div class="en">PET FOOD SAFETY · AI ANALYSIS</div>
+          <p data-zh>宠物食物安全查询与 AI 应急分析小程序，支持拍照识别食物、安全等级评估、应急风险参考与宠物档案管理。</p>
+          <p data-en>Pet food safety query and AI emergency analysis mini-program with photo recognition, safety assessment, and pet profile management.</p>
+          <div class="product-tags">
+            <span class="tag" data-zh>微信小程序</span>
+            <span class="tag" data-en>WeChat Mini-Program</span>
+            <span class="tag" data-zh>AI 识别</span>
+            <span class="tag" data-en>AI Recognition</span>
+            <span class="tag" data-zh>宠物安全</span>
+            <span class="tag" data-en>Pet Safety</span>
+            <span class="tag">Pro</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label"><span data-zh>联系我们 / CONTACT</span><span data-en>CONTACT</span></div>
+        <h2 class="section-title"><span data-zh>让我们聊聊</span><span data-en>Let's Talk</span></h2>
+        <p class="section-desc"><span data-zh>无论是技术合作、产品咨询还是商务交流，欢迎随时联系。</span><span data-en>For partnerships, product inquiries, or business communication.</span></p>
+      </div>
+      <div class="contact-grid reveal">
+        <div class="contact-item">
+          <div class="label"><span data-zh>公司名称 / Company</span><span data-en>Company</span></div>
+          <div class="value"><span data-zh>杭州隙光科技有限公司<br>Hangzhou Gap Light Technology Co., Ltd.</span><span data-en>Hangzhou Gap Light Technology Co., Ltd.<br>杭州隙光科技有限公司</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="label"><span data-zh>统一社会信用代码 / USCC</span><span data-en>USCC</span></div>
+          <div class="value">91330108MAKE1LNEP7G</div>
+        </div>
+        <div class="contact-item">
+          <div class="label"><span data-zh>所在地 / Location</span><span data-en>Location</span></div>
+          <div class="value"><span data-zh>中国 · 杭州<br>Hangzhou, China</span><span data-en>Hangzhou, China<br>中国 · 杭州</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="label"><span data-zh>电子邮箱 / Email</span><span data-en>Email</span></div>
+          <div class="value"><a href="mailto:service@novacraft.top">service@novacraft.top</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="logo-mark">
+        <svg width="28" height="28" viewBox="0 0 512 512">
+          <rect x="96" y="141" width="140" height="230" rx="34" fill="var(--logo-block)"/>
+          <rect x="276" y="141" width="140" height="230" rx="34" fill="var(--logo-block)"/>
+          <rect x="244" y="104" width="24" height="304" rx="12" fill="var(--logo-beam)"/>
+        </svg>
+        <span class="text">Gap Light</span>
+      </div>
+      <div class="copyright"><span data-zh>© 2026 杭州隙光科技有限公司 版权所有</span><span data-en>© 2026 Hangzhou Gap Light Technology Co., Ltd.</span></div>
+      <div class="icp"><span data-zh>备案号：</span><span data-en>ICP: </span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">浙ICP备2026053461号</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const sunIcon = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+    const moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+    toggle.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      document.getElementById('themeIcon').innerHTML = next === 'dark' ? sunIcon : moonIcon;
+    });
+    const langToggle = document.getElementById('langToggle');
+    langToggle.addEventListener('click', () => {
+      const next = root.getAttribute('data-lang') === 'zh' ? 'en' : 'zh';
+      root.setAttribute('data-lang', next);
+    });
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
