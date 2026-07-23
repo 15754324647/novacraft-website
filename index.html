@@ -47,6 +47,14 @@
     .ctrl-btn:hover { border-color: var(--accent); transform: scale(1.05); color: var(--accent-hi); }
     .ctrl-btn svg { width: 18px; height: 18px; }
 
+    /* Back to top */
+    .back-to-top { position: fixed; right: 40px; bottom: 24px; z-index: 80; width: 44px; height: 44px; border: 1px solid var(--rule); border-radius: 12px; background: color-mix(in srgb, var(--bg-elev) 88%, transparent); color: var(--ink-soft); box-shadow: var(--shadow-card); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease, border-color 0.25s ease, background 0.25s ease; }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { border-color: var(--accent); background: var(--bg-elev); color: var(--accent-hi); transform: translateY(-2px); }
+    .back-to-top:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+    .back-to-top svg { width: 20px; height: 20px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
     /* Nav */
     .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 90; padding: 16px 0; background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid transparent; transition: border-color 0.3s ease; }
     .nav.scrolled { border-bottom-color: var(--rule); }
@@ -135,6 +143,7 @@
     /* Responsive */
     @media (max-width: 768px) {
       .nav-links { display: none; }
+      .back-to-top { right: 20px; bottom: 20px; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
       .services-grid { grid-template-columns: 1fr; }
       .product-card { flex-direction: column; text-align: center; padding: 32px 24px; }
@@ -164,6 +173,14 @@
       </svg>
     </button>
   </div>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+    <span class="sr-only" data-zh>返回顶部</span>
+    <span class="sr-only" data-en>Back to top</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>
+    </svg>
+  </button>
 
   <nav class="nav" id="nav">
     <div class="container">
@@ -404,7 +421,16 @@
       root.setAttribute('data-lang', next);
     });
     const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); });
+    const backToTop = document.getElementById('backToTop');
+    const updateScrollState = () => {
+      const isScrolled = window.scrollY > 20;
+      nav.classList.toggle('scrolled', isScrolled);
+      backToTop.classList.toggle('visible', window.scrollY > window.innerHeight * 0.75);
+      backToTop.setAttribute('aria-hidden', String(window.scrollY <= window.innerHeight * 0.75));
+    };
+    window.addEventListener('scroll', updateScrollState, { passive: true });
+    backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    updateScrollState();
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
     }, { threshold: 0.15 });
